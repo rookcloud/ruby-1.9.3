@@ -1,0 +1,22 @@
+#!/bin/bash
+set -e
+
+# Dependencies are passed as parameters to this init.
+# We set global env variables such as $ROOK_MYSQL-5.5=true so other systems know about the dependencies.
+for DEPENDENCY in $@
+do
+	# Replace - and . with _
+	DEPENDENCY_ENV=${DEPENDENCY//[\.\-]/'_'}
+	# And upcase it
+	declare -x "ROOK_${DEPENDENCY_ENV^^}=true"
+done
+
+# TODO: 
+# Determine if any dependencies require certain networking,
+# and then wait for necessary networking to be online before continuing.
+
+su root /sbin/init_permissions
+su app /sbin/init_app
+
+echo "Starting init process"
+exec /sbin/my_init
