@@ -60,3 +60,4 @@ if grep -qs -e "^\s*gem 'rails'" /app/Gemfile; then
 	bundle exec rake db:migrate
 	bundle exec rake db:seed
 fi
+exit 0
