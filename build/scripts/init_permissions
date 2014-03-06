@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 echo "Setting app user and group ID"
 usermod -u $(stat -c %u /app) app
