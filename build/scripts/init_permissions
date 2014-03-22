@@ -4,3 +4,4 @@ set -e
 echo "Setting app user and group ID"
 usermod -u $(stat -c %u /app) app
 groupmod -g $(stat -c %g /app) app
+chown -R app: /home/app

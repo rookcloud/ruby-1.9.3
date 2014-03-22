@@ -1,6 +1,5 @@
 #!/bin/bash
-
-BASEDIR=$(dirname $(readlink -f $0))
-IMAGE=$(basename $BASEDIR)
+set -e
+IMAGE=ruby-1.9.3
 echo Building $IMAGE
-docker build -t rook/$IMAGE ./build
+exec docker build -t rook/$IMAGE ./build

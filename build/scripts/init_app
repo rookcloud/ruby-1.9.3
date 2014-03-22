@@ -6,7 +6,7 @@ cd /app
 if [ -f /app/Gemfile ]; then
 	echo "Gemfile dected!"
 	echo "Bundling ruby gems..."
-	bundle install --path /mount/bundle
+	bundle install --path /rook/cache/bundle
 fi
 
 # Check if the Gemfile contains a non-commented "gem 'rails'"

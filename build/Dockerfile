@@ -1,4 +1,4 @@
-FROM phusion/passenger-ruby19:0.9.6
+FROM phusion/passenger-ruby19:0.9.8
 MAINTAINER Goffert van Gool "goffert@phusion.nl"
 
 # Force non-interactive installs
@@ -24,7 +24,7 @@ RUN chown -R app:app /tmp/templates
 ADD scripts /sbin
 
 # Use the init wrapper. This will start the init process once all init scripts are completed
-CMD ["/sbin/init_wrapper"]
+CMD ["/sbin/rook_init"]
 
 # For debugging purposes, will be removed in later versions
 RUN /usr/sbin/enable_insecure_key

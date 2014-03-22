@@ -15,8 +15,10 @@ done
 # Determine if any dependencies require certain networking,
 # and then wait for necessary networking to be online before continuing.
 
-su root /sbin/init_permissions
-su app /sbin/init_app
+/sbin/init_permissions
+mkdir -p /rook/cache/bundle
+chown app: /rook/cache/bundle
+setuser app /sbin/init_app
 
 echo "Starting init process"
 exec /sbin/my_init
