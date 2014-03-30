@@ -15,10 +15,10 @@ done
 # Determine if any dependencies require certain networking,
 # and then wait for necessary networking to be online before continuing.
 
-/sbin/init_permissions
+/rook/scripts/init_permissions
 mkdir -p /rook/cache/bundle
 chown app: /rook/cache/bundle
-setuser app /sbin/init_app
+setuser app /rook/scripts/init_app
 
-echo "Starting init process"
+echo "Starting BaseImage init process"
 exec /sbin/my_init

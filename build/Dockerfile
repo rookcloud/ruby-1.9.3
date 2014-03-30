@@ -21,10 +21,10 @@ ADD templates /tmp/templates
 RUN chown -R app:app /tmp/templates
 
 # Add our init scripts
-ADD scripts /sbin
+ADD scripts /rook/scripts
 
 # Use the init wrapper. This will start the init process once all init scripts are completed
-CMD ["/sbin/rook_init"]
+CMD ["/rook/scripts/rook_init"]
 
 # For debugging purposes, will be removed in later versions
 RUN /usr/sbin/enable_insecure_key
