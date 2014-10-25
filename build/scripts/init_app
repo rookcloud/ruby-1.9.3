@@ -23,8 +23,7 @@ if grep -qs -e "^\s*gem 'rails'" /app/Gemfile; then
 			mv /app/config/database.yml /app/config/database.yml.old
 		fi
 		cp /tmp/templates/mysql-5.5/database.yml /app/config/database.yml
-		sed -i "s/host: <ROOK>/host: 192.168.1.2/g" /app/config/database.yml
-
+		sed -i "s/host: <ROOK>/host: $MYSQL_PORT_3306_TCP_ADDR/g" /app/config/database.yml
 
 		# Wait for the local container network to come online
 		while ! grep -q ^1$ /sys/class/net/eth1/carrier 2>/dev/null
@@ -36,14 +35,14 @@ if grep -qs -e "^\s*gem 'rails'" /app/Gemfile; then
 
 		set +e
 		# This returns a 0 exit code if the mysql command does not fail
-		echo 'exit' | mysql --host=192.168.1.2 --user=app --password=rook
+		echo 'exit' | mysql --host=$MYSQL_PORT_3306_TCP_ADDR --user=app --password=rook
 
 		# Check if the exit code is 0. If it isn't, mysql is not yet online.
 		while ! [ $? = 0 ]
 		do
 			echo "MySQL is not yet online. Waiting."
 			sleep 1
-			echo 'exit' | mysql --host=192.168.1.2 --user=app --password=rook
+			echo 'exit' | mysql --host=$MYSQL_PORT_3306_TCP_ADDR --user=app --password=rook
 		done
 		set -e
 
