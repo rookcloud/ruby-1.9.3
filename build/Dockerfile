@@ -1,4 +1,4 @@
-FROM phusion/passenger-ruby19:0.9.8
+FROM phusion/passenger-ruby19:0.9.14
 MAINTAINER Goffert van Gool "goffert@phusion.nl"
 
 # Force non-interactive installs
