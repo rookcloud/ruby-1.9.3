@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # Install libraries
 RUN apt-get update -y && \
-    apt-get install -y --no-install-recommends libmysql-ruby libmysqlclient-dev mysql-client imagemagick pngquant && \
+    apt-get install -y --no-install-recommends libmysqlclient-dev mysql-client imagemagick pngquant && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
