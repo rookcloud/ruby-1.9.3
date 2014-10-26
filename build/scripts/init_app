@@ -6,7 +6,7 @@ cd /app
 if [ -f /app/Gemfile ]; then
 	echo "Gemfile dected!"
 	echo "Bundling ruby gems..."
-	bundle install --path /rook/cache/bundle
+	bundle install --path /rook/persist/bundle
 fi
 
 # Check if the Gemfile contains a non-commented "gem 'rails'"
@@ -14,7 +14,7 @@ if grep -qs -e "^\s*gem 'rails'" /app/Gemfile; then
 	echo "Rails application detected"
 	echo "Initializing database"
 
-	# We know the database from the dependency env variables set in init_wrapper
+	# We know the database from the dependency env variables set in rook_init
 	if [ $ROOK_MYSQL_5_5 = "true" ]; then
 		
 		echo "Setting up MySQL configuration"
@@ -23,26 +23,21 @@ if grep -qs -e "^\s*gem 'rails'" /app/Gemfile; then
 			mv /app/config/database.yml /app/config/database.yml.old
 		fi
 		cp /tmp/templates/mysql-5.5/database.yml /app/config/database.yml
-		sed -i "s/host: <ROOK>/host: $MYSQL_PORT_3306_TCP_ADDR/g" /app/config/database.yml
-
-		# Wait for the local container network to come online
-		while ! grep -q ^1$ /sys/class/net/eth1/carrier 2>/dev/null
-			do sleep 1
-		done
+		sed -i "s/host: <ROOK>/host: MYSQL/g" /app/config/database.yml
 
 		# TODO: Find a method to wait until mysql is available 
 		# that does not require mysql-client 
 
 		set +e
 		# This returns a 0 exit code if the mysql command does not fail
-		echo 'exit' | mysql --host=$MYSQL_PORT_3306_TCP_ADDR --user=app --password=rook
+		echo 'exit' | mysql --host=MYSQL --user=app --password=rook
 
 		# Check if the exit code is 0. If it isn't, mysql is not yet online.
 		while ! [ $? = 0 ]
 		do
 			echo "MySQL is not yet online. Waiting."
 			sleep 1
-			echo 'exit' | mysql --host=$MYSQL_PORT_3306_TCP_ADDR --user=app --password=rook
+			echo 'exit' | mysql --host=MYSQL --user=app --password=rook
 		done
 		set -e
 

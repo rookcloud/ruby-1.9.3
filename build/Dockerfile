@@ -14,7 +14,7 @@ RUN apt-get update -y && \
 RUN rm -f /etc/service/nginx/down
 
 # Link to the mounted config file
-RUN ln -sf /mount/config/nginx.conf /etc/nginx/nginx.conf
+RUN ln -sf /rook/persist/config/nginx.conf /etc/nginx/nginx.conf
 
 # Add templates for configuration files
 ADD templates /tmp/templates
